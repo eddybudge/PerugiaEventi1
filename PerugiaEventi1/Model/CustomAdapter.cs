@@ -15,7 +15,7 @@ namespace PerugiaEventi1.Model
 {
     public class ViewHolder : Java.Lang.Object {
 
-        public Button Evento { get; set; }
+        public Button bottoneEvento { get; set; }
 
     }
 
@@ -42,14 +42,14 @@ namespace PerugiaEventi1.Model
             return long.Parse(eventi[position].Id);
         }
 
-        public override int GetItemViewType(int position)
-        {
-            return base.GetItemViewType(position);
-        }
-
         public override View GetView(int position, View convertView, ViewGroup parent)
         {
-            throw new NotImplementedException();
+            var view = convertView ?? activity.LayoutInflater.Inflate(Resource.Layout.list_item, parent, false);
+            var bottoneEvento = view.FindViewById<Button>(Resource.Id.bottoneEventAdapter);
+
+            bottoneEvento.Text = eventi[position].Titolo;
+
+            return view;
         }
     }
 }
