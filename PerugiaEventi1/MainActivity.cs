@@ -15,7 +15,6 @@ namespace PerugiaEventi1
     [Activity(Label = "@string/app_name", Theme = "@style/AppTheme", MainLauncher = true)]
     public class MainActivity : AppCompatActivity
     {
-        CustomAdapter adapter;
         Button bottoneCaricaEventi;
         ListView listaEventi;
         string response;
@@ -50,10 +49,10 @@ namespace PerugiaEventi1
                 root = JsonConvert.DeserializeObject<RootObject>(response);
                 totaleContenuti = root.Total;
                 listaContenuti = root.Contenuto;
-                primoContenuto = listaContenuti[0];
+                primoContenuto = listaContenuti[9];
                 //TODO aggiungi il controllo per non aggiornamento se
                 //l'ultimo evento caricato non è cambiato 
-                bottoneCaricaEventi.Text = primoContenuto.Titolo;
+                bottoneCaricaEventi.Text = "hhh"+primoContenuto.Titolo+"ww";
 
                 int x = int.Parse(totaleContenuti);
                 
@@ -65,7 +64,8 @@ namespace PerugiaEventi1
                         if (listaContenuti[i].Comune == "Perugia")
                         {
                             //TODO crea oggetto eventi
-                            Evento nuovoEvento = new Evento(listaContenuti[i].Titolo);
+                            Evento nuovoEvento = new Evento(listaContenuti[i].Titolo, 
+                                listaContenuti[i].Id_contenuto);
                             eventi.Add(nuovoEvento);
                         }
                         else

@@ -14,12 +14,15 @@ namespace PerugiaEventi1.Model
 {
     public class Evento
     {
-        public Evento(string titolo)
+        public Evento(string titolo, string id)
         {
             Titolo = titolo;
+            Id = id;
         }
+      
+        
         public string Id { get; set; }
         public string Titolo { get; set; }
-        public string Data_fine { get; set; }
+        //public string Data_fine { get; set; }
     }
 }
