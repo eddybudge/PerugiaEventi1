@@ -18,7 +18,7 @@ namespace PerugiaEventi1.Model
         {
             Titolo = titolo;
         }
-
+        public string Id { get; set; }
         public string Titolo { get; set; }
         public string Data_fine { get; set; }
     }
