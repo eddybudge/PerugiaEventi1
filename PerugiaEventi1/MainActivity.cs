@@ -15,6 +15,7 @@ namespace PerugiaEventi1
     [Activity(Label = "@string/app_name", Theme = "@style/AppTheme", MainLauncher = true)]
     public class MainActivity : AppCompatActivity
     {
+        CustomAdapter adapter;
         Button bottoneCaricaEventi;
         ListView listaEventi;
         string response;
@@ -29,6 +30,8 @@ namespace PerugiaEventi1
             base.OnCreate(savedInstanceState);
             // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.activity_main);
+
+            eventi = new List<Evento>();
 
             bottoneCaricaEventi = FindViewById<Button>(Resource.Id.bottoneCaricaEventi);
             listaEventi = FindViewById<ListView>(Resource.Id.listaEventi);
@@ -73,6 +76,9 @@ namespace PerugiaEventi1
                         //tutti gli eventi restanti sono gia' passati
                         break;
                     }
+                listaEventi = FindViewById<ListView>(Resource.Id.listaEventi);
+                var adapter = new CustomAdapter(this, eventi);
+                listaEventi.Adapter = adapter;
             };
         }
 
