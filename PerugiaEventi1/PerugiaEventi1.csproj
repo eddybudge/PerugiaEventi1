@@ -57,7 +57,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MainActivity.cs" />
+    <Compile Include="Model\AltriIndirizzi.cs" />
     <Compile Include="Model\Contenuto.cs" />
+    <Compile Include="Model\Coordinate2.cs" />
+    <Compile Include="Model\Coordinate.cs" />
     <Compile Include="Model\Descrizioni.cs" />
     <Compile Include="Model\Immagini.cs" />
     <Compile Include="Model\RootObject.cs" />

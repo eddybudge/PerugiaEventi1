@@ -3,7 +3,7 @@ using Android.OS;
 using Android.Support.V7.App;
 using Android.Runtime;
 using Android.Widget;
-using Android.Net
+using Android.Net;
 
 namespace PerugiaEventi1
 {
@@ -21,6 +21,8 @@ namespace PerugiaEventi1
 
             bottoneCaricaEventi = FindViewById<Button>(Resource.Id.bottoneCaricaEventi);
             listaEventi = FindViewById<ListView>(Resource.Id.listaEventi);
+
         }
+
     }
 }
