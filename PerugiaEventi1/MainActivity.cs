@@ -8,6 +8,7 @@ using System.IO;
 using PerugiaEventi1.Model;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using System;
 
 namespace PerugiaEventi1
 {
@@ -30,6 +31,9 @@ namespace PerugiaEventi1
 
             bottoneCaricaEventi = FindViewById<Button>(Resource.Id.bottoneCaricaEventi);
             listaEventi = FindViewById<ListView>(Resource.Id.listaEventi);
+
+            DateTime thisDay = DateTime.Today;
+
             bottoneCaricaEventi.Click += delegate {
                 //bottoneCaricaEventi.Text = "Sto caricando";
                
@@ -44,6 +48,17 @@ namespace PerugiaEventi1
                 listaContenuti = root.Contenuto;
                 primoContenuto = listaContenuti[0];
                 bottoneCaricaEventi.Text = primoContenuto.Titolo;
+
+                int x = int.Parse(totaleContenuti);
+
+                for (int i = 1; i < x; i++) {
+                    if (listaContenuti[i].Comune == "Perugia") {
+                        //vediamo di non caricare gli eventi che sono terminati
+                        if (Convert.ToDateTime(listaContenuti[i].Data_fine) >= thisDay) {
+                            //TODO crea oggetto eventi
+                        }
+                    }
+                }
             };
         }
 
