@@ -22,6 +22,7 @@ namespace PerugiaEventi1
         List<Contenuto> listaContenuti;
         Contenuto primoContenuto;
         string totaleContenuti;
+        List<Evento> eventi;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -47,11 +48,13 @@ namespace PerugiaEventi1
                 totaleContenuti = root.Total;
                 listaContenuti = root.Contenuto;
                 primoContenuto = listaContenuti[0];
+                //TODO aggiungi il controllo per non aggiornamento se
+                //l'ultimo evento caricato non è cambiato 
                 bottoneCaricaEventi.Text = primoContenuto.Titolo;
 
                 int x = int.Parse(totaleContenuti);
-
-                for (int i = 1; i < x; i++) {
+                
+                for (int i = 0; i < x; i++) {
                     //vediamo di non caricare gli eventi che sono terminati 
                     //- a quanto pare sono ordinati cronologicamente questi eventi
                     if(Convert.ToDateTime(listaContenuti[i].Data_fine) >= thisDay)
@@ -59,6 +62,8 @@ namespace PerugiaEventi1
                         if (listaContenuti[i].Comune == "Perugia")
                         {
                             //TODO crea oggetto eventi
+                            Evento nuovoEvento = new Evento(listaContenuti[i].Titolo);
+                            eventi.Add(nuovoEvento);
                         }
                         else
                             //no si tratta di Perugia

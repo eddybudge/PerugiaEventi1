@@ -61,6 +61,7 @@
     <Compile Include="Model\Contenuto.cs" />
     <Compile Include="Model\Coordinate2.cs" />
     <Compile Include="Model\Coordinate.cs" />
+    <Compile Include="Model\CustomAdapter.cs" />
     <Compile Include="Model\Descrizioni.cs" />
     <Compile Include="Model\Evento.cs" />
     <Compile Include="Model\Immagini.cs" />

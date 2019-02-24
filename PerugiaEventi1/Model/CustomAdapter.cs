@@ -12,14 +12,15 @@ using Android.Widget;
 
 namespace PerugiaEventi1.Model
 {
-    public class Evento
-    {
-        public Evento(string titolo)
-        {
-            Titolo = titolo;
-        }
+    public class ViewHolder : Java.Lang.Object {
 
-        public string Titolo { get; set; }
-        public string Data_fine { get; set; }
+        public Button Evento { get; set; }
+
+    }
+
+    public class CustomAdapter: BaseAdapter
+    
+    {
+        public override int Count
     }
 }
