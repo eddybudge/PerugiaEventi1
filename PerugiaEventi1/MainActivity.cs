@@ -52,13 +52,22 @@ namespace PerugiaEventi1
                 int x = int.Parse(totaleContenuti);
 
                 for (int i = 1; i < x; i++) {
-                    if (listaContenuti[i].Comune == "Perugia") {
-                        //vediamo di non caricare gli eventi che sono terminati
-                        if (Convert.ToDateTime(listaContenuti[i].Data_fine) >= thisDay) {
+                    //vediamo di non caricare gli eventi che sono terminati 
+                    //- a quanto pare sono ordinati cronologicamente questi eventi
+                    if(Convert.ToDateTime(listaContenuti[i].Data_fine) >= thisDay)
+                    {
+                        if (listaContenuti[i].Comune == "Perugia")
+                        {
                             //TODO crea oggetto eventi
                         }
+                        else
+                            //no si tratta di Perugia
+                            continue;
                     }
-                }
+                    else
+                        //tutti gli eventi restanti sono gia' passati
+                        break;
+                    }
             };
         }
 
