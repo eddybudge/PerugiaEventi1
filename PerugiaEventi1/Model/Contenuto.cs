@@ -9,6 +9,7 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using Newtonsoft.Json;
 
 namespace PerugiaEventi1.Model
 {
@@ -19,7 +20,9 @@ namespace PerugiaEventi1.Model
         public string Titolo { get; set; }
         public string Url_risorsa { get; set; }
         public string Descrizione { get; set; }
+        [JsonProperty("data-inizio")]
         public string Data_inizio { get; set; }
+        [JsonProperty("data-fine")]
         public string Data_fine { get; set; }
         public string Keywords { get; set; }
         public string Titolo_testo { get; set; }

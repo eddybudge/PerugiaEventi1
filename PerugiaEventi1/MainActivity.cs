@@ -9,6 +9,7 @@ using PerugiaEventi1.Model;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System;
+using System.Globalization;
 
 namespace PerugiaEventi1
 {
@@ -35,7 +36,7 @@ namespace PerugiaEventi1
             bottoneCaricaEventi = FindViewById<Button>(Resource.Id.bottoneCaricaEventi);
             listaEventi = FindViewById<ListView>(Resource.Id.listaEventi);
 
-            DateTime thisDay = DateTime.Today;
+            DateTime thisDay = DateTime.Now.Date;
 
             bottoneCaricaEventi.Click += delegate {
                 //bottoneCaricaEventi.Text = "Sto caricando";
@@ -52,14 +53,19 @@ namespace PerugiaEventi1
                 primoContenuto = listaContenuti[9];
                 //TODO aggiungi il controllo per non aggiornamento se
                 //l'ultimo evento caricato non è cambiato 
-                bottoneCaricaEventi.Text = "hhh"+primoContenuto.Titolo+"ww";
+                bottoneCaricaEventi.Text = primoContenuto.Data_inizio;
 
                 int x = int.Parse(totaleContenuti);
-                
-                for (int i = 0; i < x; i++) {
+                /*for (int i = 0; i < 7; i++) {
+                    Evento nuovoEvento = new Evento("Evento#"+i,
+                                ""+i);
+                    eventi.Add(nuovoEvento);
+                }*/
+
+                for (int i = 0; i < x-1; i++) {
                     //vediamo di non caricare gli eventi che sono terminati 
                     //- a quanto pare sono ordinati cronologicamente questi eventi
-                    if(Convert.ToDateTime(listaContenuti[i].Data_fine) >= thisDay)
+                    if(DateTime.ParseExact(listaContenuti[i].Data_fine, "dd/MM/yyyy", CultureInfo.InvariantCulture) >= thisDay)
                     {
                         if (listaContenuti[i].Comune == "Perugia")
                         {
@@ -68,14 +74,10 @@ namespace PerugiaEventi1
                                 listaContenuti[i].Id_contenuto);
                             eventi.Add(nuovoEvento);
                         }
-                        else
-                            //no si tratta di Perugia
-                            continue;
                     }
-                    else
-                        //tutti gli eventi restanti sono gia' passati
-                        break;
-                    }
+                }
+
+                
                 listaEventi = FindViewById<ListView>(Resource.Id.listaEventi);
                 var adapter = new CustomAdapter(this, eventi);
                 listaEventi.Adapter = adapter;
