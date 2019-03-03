@@ -12,6 +12,7 @@ using System;
 using System.Globalization;
 using Android.Views;
 using System.Net;
+using Android.Content;
 
 namespace PerugiaEventi1
 {
@@ -20,10 +21,8 @@ namespace PerugiaEventi1
     {
         Button bottoneCaricaEventi;
         ListView listaEventi;
-        string response;
         RootObject root;
         List<Contenuto> listaContenuti;
-        Contenuto primoContenuto;
         string totaleContenuti;
         List<Evento> eventi;
 
@@ -86,9 +85,19 @@ namespace PerugiaEventi1
                 var adapter = new CustomAdapter(this, eventi);
                 listaEventi.Adapter = adapter;
 
+                //gestiamo i click all'interno della listview
+                //listaEventi.ItemClick += listaEventi_ItemClick;
+
                 bottoneCaricaEventi.Visibility = ViewStates.Gone;
             };
         }
 
+        /*private void listaEventi_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
+        {
+            var titolo = eventi[e.Position].Titolo;
+            //bisogna, immagino fare l'update della view con notify - prima creando un observer.
+            Intent dettagli = new Intent(this, typeof(EventoInDettaglio));
+            dettagli.PutExtra("titolo", titolo);
+        }*/
     }
 }

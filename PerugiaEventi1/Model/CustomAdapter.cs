@@ -48,6 +48,13 @@ namespace PerugiaEventi1.Model
             var bottoneEvento = view.FindViewById<Button>(Resource.Id.bottoneEventAdapter);
 
             bottoneEvento.Text = eventi[position].Titolo;
+            //bottoneEvento.Tag = position;  --forse non serve
+            bottoneEvento.Click += (sender, args) => {
+                //bisogna, immagino fare l'update della view con notify - prima creando un observer.
+                Intent dettagli = new Intent(Application.Context, typeof(EventoInDettaglio));
+                dettagli.PutExtra("titolo", bottoneEvento.Text);
+                Application.Context.StartActivity(dettagli);
+            };
 
             return view;
         }
