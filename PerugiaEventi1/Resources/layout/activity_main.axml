@@ -12,6 +12,7 @@
 		android:layout_above="@+id/bottoneCaricaEventi"
 		android:id="@+id/listaEventi" />
 	<Button
+		android:visibility="visible"
 		android:text="Carica Eventi"
 		android:layout_alignParentBottom="true"
 		android:layout_width="match_parent"

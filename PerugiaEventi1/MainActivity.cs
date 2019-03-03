@@ -10,6 +10,8 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using System;
 using System.Globalization;
+using Android.Views;
+using System.Net;
 
 namespace PerugiaEventi1
 {
@@ -40,20 +42,21 @@ namespace PerugiaEventi1
 
             bottoneCaricaEventi.Click += delegate {
                 //bottoneCaricaEventi.Text = "Sto caricando";
-               
+
+                WebClient httpClient = new WebClient();
+                var jsonData = httpClient.DownloadString("http://dati.umbria.it/dataset/410faa97-546b-4362-a6d7-f8794d18ed19/resource/8afe729a-0f59-4647-95ee-481577e83bea/download/eventijsonitit.zipeventiitit.json");
                 //carica json locale e deserializzalo
 
-                StreamReader strm = new StreamReader(Assets.
+                /*StreamReader strm = new StreamReader(Assets.
                     Open("eventijsonitit.zipeventiitit.json"));
                 response = strm.ReadToEnd();
-
-                root = JsonConvert.DeserializeObject<RootObject>(response);
+                
+                root = JsonConvert.DeserializeObject<RootObject>(response);*/
+                root = JsonConvert.DeserializeObject<RootObject>(jsonData);
                 totaleContenuti = root.Total;
                 listaContenuti = root.Contenuto;
-                primoContenuto = listaContenuti[9];
                 //TODO aggiungi il controllo per non aggiornamento se
                 //l'ultimo evento caricato non è cambiato 
-                bottoneCaricaEventi.Text = primoContenuto.Data_inizio;
 
                 int x = int.Parse(totaleContenuti);
                 /*for (int i = 0; i < 7; i++) {
@@ -81,6 +84,8 @@ namespace PerugiaEventi1
                 listaEventi = FindViewById<ListView>(Resource.Id.listaEventi);
                 var adapter = new CustomAdapter(this, eventi);
                 listaEventi.Adapter = adapter;
+
+                bottoneCaricaEventi.Visibility = ViewStates.Gone;
             };
         }
 
