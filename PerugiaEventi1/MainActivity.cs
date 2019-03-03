@@ -45,13 +45,14 @@ namespace PerugiaEventi1
 
                 WebClient httpClient = new WebClient();
                 var jsonData = httpClient.DownloadString("http://dati.umbria.it/dataset/410faa97-546b-4362-a6d7-f8794d18ed19/resource/8afe729a-0f59-4647-95ee-481577e83bea/download/eventijsonitit.zipeventiitit.json");
+                
                 //carica json locale e deserializzalo
-
                 /*StreamReader strm = new StreamReader(Assets.
                     Open("eventijsonitit.zipeventiitit.json"));
                 response = strm.ReadToEnd();
-                
                 root = JsonConvert.DeserializeObject<RootObject>(response);*/
+
+
                 root = JsonConvert.DeserializeObject<RootObject>(jsonData);
                 totaleContenuti = root.Total;
                 listaContenuti = root.Contenuto;
