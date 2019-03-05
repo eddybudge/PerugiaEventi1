@@ -53,6 +53,7 @@ namespace PerugiaEventi1.Model
                 //bisogna, immagino fare l'update della view con notify - prima creando un observer.
                 Intent dettagli = new Intent(Application.Context, typeof(EventoInDettaglio));
                 dettagli.PutExtra("titolo", bottoneEvento.Text);
+                dettagli.PutExtra("url", eventi[position].Url);
                 Application.Context.StartActivity(dettagli);
             };
 

@@ -74,7 +74,7 @@ namespace PerugiaEventi1
                         {
                             //TODO crea oggetto eventi
                             Evento nuovoEvento = new Evento(listaContenuti[i].Titolo, 
-                                listaContenuti[i].Id_contenuto);
+                                listaContenuti[i].Id_contenuto, listaContenuti[i].Url_risorsa);
                             eventi.Add(nuovoEvento);
                         }
                     }

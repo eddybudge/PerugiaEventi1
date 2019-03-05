@@ -23,7 +23,13 @@ namespace PerugiaEventi1
             // Create your application here
             SetContentView(Resource.Layout.dettagliEvento);
             titoloEvento = FindViewById<TextView>(Resource.Id.dettagliTitolo);
-            titoloEvento.Text = Intent.GetStringExtra("titolo");
+            titoloEvento.Text = Intent.GetStringExtra("url");
+            titoloEvento.Click += delegate
+            {
+                var uri = Android.Net.Uri.Parse(titoloEvento.Text);
+                var intent = new Intent(Intent.ActionView, uri);
+                ApplicationContext.StartActivity(intent);
+            };
         }
     }
 }
