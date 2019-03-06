@@ -54,6 +54,9 @@ namespace PerugiaEventi1.Model
                 Intent dettagli = new Intent(Application.Context, typeof(EventoInDettaglio));
                 dettagli.PutExtra("titolo", bottoneEvento.Text);
                 dettagli.PutExtra("url", eventi[position].Url);
+                dettagli.PutExtra("inizia", eventi[position].Inizio);
+                dettagli.PutExtra("finisce", eventi[position].Fine);
+                dettagli.PutExtra("descrizione", eventi[position].Descrizione);
                 Application.Context.StartActivity(dettagli);
             };
 

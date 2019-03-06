@@ -11,5 +11,33 @@
 		android:layout_height="wrap_content"
 		android:minWidth="25px"
 		android:minHeight="25px"/>
+	<TextView
+		android:id="@+id/dettagliUrl"
+		android:text="Text"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:minWidth="25px"
+		android:minHeight="25px"/>
+	<TextView
+		android:id="@+id/dettagliInizio"
+		android:text="Text"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:minWidth="25px"
+		android:minHeight="25px"/>
+	<TextView
+		android:id="@+id/dettagliFine"
+		android:text="Text"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:minWidth="25px"
+		android:minHeight="25px"/>
+	<TextView
+		android:id="@+id/dettagliDescrizione"
+		android:text="Text"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:minWidth="25px"
+		android:minHeight="25px"/>
 
 </LinearLayout>
