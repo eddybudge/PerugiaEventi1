@@ -10,14 +10,27 @@
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:minWidth="25px"
-		android:minHeight="25px"/>
+		android:minHeight="25px"
+		android:focusedByDefault="false"
+		android:foregroundGravity="center"
+		android:gravity="center"
+		android:textAlignment="center"
+		android:textAllCaps="true"
+		android:textColor="#ff000000"
+		android:padding="5px"/>
 	<TextView
 		android:id="@+id/dettagliUrl"
 		android:text="Text"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:minWidth="25px"
-		android:minHeight="25px"/>
+		android:minHeight="25px"
+		android:padding="10px"
+		android:textColor="#ff2137c4"
+		android:clickable="true"
+		android:autoLink="web"
+		android:linksClickable="true"
+		android:gravity="center_horizontal" />
 	<TextView
 		android:id="@+id/dettagliInizio"
 		android:text="Text"

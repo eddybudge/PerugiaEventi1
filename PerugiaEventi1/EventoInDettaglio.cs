@@ -12,7 +12,7 @@ using Android.Widget;
 
 namespace PerugiaEventi1
 {
-    [Activity(Label = "EventoInDettaglio")]
+    [Activity(Label = "EventoInDettaglio", NoHistory = true, ConfigurationChanges = Android.Content.PM.ConfigChanges.Orientation | Android.Content.PM.ConfigChanges.ScreenSize)]
     public class EventoInDettaglio : Activity
     {
         public TextView titoloEvento, urlView, inizioView, fineView, descrizioneView;
@@ -38,6 +38,12 @@ namespace PerugiaEventi1
                 var intent = new Intent(Intent.ActionView, uri);
                 ApplicationContext.StartActivity(intent);
             };
+        }
+
+        public override void OnBackPressed()
+        {
+            Finish();
+            base.OnBackPressed();        
         }
     }
 }
