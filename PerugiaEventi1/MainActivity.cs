@@ -13,6 +13,7 @@ using System.Globalization;
 using Android.Views;
 using System.Net;
 using Android.Content;
+using System.Threading;
 
 namespace PerugiaEventi1
 {
@@ -29,6 +30,8 @@ namespace PerugiaEventi1
         private static string jsonData;
         static DateTime thisDay;
         static CustomAdapter adapter;
+        private static ProgressBar circularbar;
+        private static int progressStatus = 0, progressStatus1 = 100;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -40,17 +43,34 @@ namespace PerugiaEventi1
 
             bottoneCaricaEventi = FindViewById<Button>(Resource.Id.bottoneCaricaEventi);
             bottoneCaricaEventi.Visibility = ViewStates.Gone;
+            circularbar = FindViewById<ProgressBar>(Resource.Id.circularProgressbar);
+            circularbar.Max = 100;
+            circularbar.Progress = 100;
+            circularbar.SecondaryProgress = 100;
 
-            
+
 
 
             thisDay = DateTime.Now.Date;
             WebClient httpClient = new WebClient();
 
             httpClient.DownloadStringCompleted += new DownloadStringCompletedEventHandler(DownloadStringCallback2);
+            httpClient.DownloadProgressChanged += new DownloadProgressChangedEventHandler(DownloadProgressCallback);
             httpClient.DownloadStringAsync(new System.Uri("http://dati.umbria.it/dataset/410faa97-546b-4362-a6d7-f8794d18ed19/resource/8afe729a-0f59-4647-95ee-481577e83bea/download/eventijsonitit.zipeventiitit.json"));
 
-            listaEventi = FindViewById<ListView>(Resource.Id.listaEventi);
+            new System.Threading.Thread(new ThreadStart(delegate {
+                while (progressStatus < 100)
+                {
+                    
+                    progressStatus1 -= 1;
+                    circularbar.Progress = progressStatus1;
+                    System.Threading.Thread.Sleep(100);
+                }
+            })).Start();
+  
+
+
+        listaEventi = FindViewById<ListView>(Resource.Id.listaEventi);
             adapter = new CustomAdapter(this, eventi);
 
             /*root = JsonConvert.DeserializeObject<RootObject>(jsonData);
@@ -129,7 +149,18 @@ namespace PerugiaEventi1
                 bottoneCaricaEventi.Visibility = ViewStates.Gone;
             };*/
         }
-private static void DownloadStringCallback2(Object sender, DownloadStringCompletedEventArgs e)
+        private static void DownloadProgressCallback(object sender, DownloadProgressChangedEventArgs e)
+        {
+            // Displays the operation identifier, and the transfer progress.
+            Console.WriteLine("{0}    downloaded {1} of {2} bytes. {3} % complete...",
+                (string)e.UserState,
+                e.BytesReceived,
+                e.TotalBytesToReceive,
+                e.ProgressPercentage);
+            
+            if (e.ProgressPercentage == 100) { progressStatus=100; }
+        }
+        private static void DownloadStringCallback2(Object sender, DownloadStringCompletedEventArgs e)
 {    // If the request was not canceled and did not throw
      // an exception, display the resource.
             if (!e.Cancelled && e.Error == null)
@@ -169,6 +200,7 @@ private static void DownloadStringCallback2(Object sender, DownloadStringComplet
                 Toast.MakeText(Application.Context, "Can't download events! Check your Internet connection", ToastLength.Long).Show();
             }
 }
+        
 
 
         /*private void listaEventi_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
