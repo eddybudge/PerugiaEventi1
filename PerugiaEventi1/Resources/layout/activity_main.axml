@@ -10,7 +10,7 @@
 		android:layout_width="250dp" 
 		android:layout_height="250dp" 
 		android:indeterminate="false" 
-		android:max="100" 
+		android:max="100"
 		android:visibility="visible"
 		android:progress="50" 
 		android:layout_centerInParent="true"
@@ -22,11 +22,4 @@
 		android:layout_height="wrap_content"
 		android:layout_above="@+id/bottoneCaricaEventi"
 		android:id="@+id/listaEventi" />
-	<Button
-		android:visibility="visible"
-		android:text="Carica Eventi"
-		android:layout_alignParentBottom="true"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:id="@+id/bottoneCaricaEventi" />
 </RelativeLayout>

@@ -13,7 +13,7 @@ using Android.Widget;
 
 namespace PerugiaEventi1
 {
-    [Activity(Label = "EventoInDettaglio", NoHistory = true, ConfigurationChanges = Android.Content.PM.ConfigChanges.Orientation | Android.Content.PM.ConfigChanges.ScreenSize)]
+    [Activity(Label = "EventoInDettaglio", NoHistory = false, ConfigurationChanges = Android.Content.PM.ConfigChanges.Orientation | Android.Content.PM.ConfigChanges.ScreenSize)]
    
     public class EventoInDettaglio : Activity
     {
@@ -34,18 +34,19 @@ namespace PerugiaEventi1
             inizioView.Text = Intent.GetStringExtra("inizia");
             fineView.Text = Intent.GetStringExtra("finisce");
             descrizioneView.Text = Intent.GetStringExtra("descrizione");
-            titoloEvento.Click += delegate
+            /*titoloEvento.Click += delegate
             {
                 var uri = Android.Net.Uri.Parse(titoloEvento.Text);
                 var intent = new Intent(Intent.ActionView, uri);
                 ApplicationContext.StartActivity(intent);
-            };
+            };*/
         }
 
-        /*public override void OnBackPressed()
+        public override void OnBackPressed()
         {
-            Finish();
+            Intent tornaIndietro = new Intent(Application.Context, typeof(MainActivity));
+            Application.Context.StartActivity(tornaIndietro);
             base.OnBackPressed();
-        }*/
+        }
     }
 }
