@@ -138,7 +138,8 @@ namespace PerugiaEventi1
 }
         public override void OnBackPressed()
         {
-            Finish();
+            Activity activity = (Activity)this;
+            activity.FinishAffinity();
             base.OnBackPressed();
         }
     }
