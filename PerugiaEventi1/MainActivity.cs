@@ -30,6 +30,7 @@ namespace PerugiaEventi1
         static List<Evento> eventi;
         public static string jsonData;
         static DateTime thisDay;
+        static DateTime lastDownload; 
         static CustomAdapter adapter;
         private static ProgressBar circularbar;
         private static int progressStatus1 = 100;
@@ -61,7 +62,7 @@ namespace PerugiaEventi1
             //httpClient.DownloadProgressChanged += new DownloadProgressChangedEventHandler(DownloadProgressCallback);
             listaEventi = FindViewById<ListView>(Resource.Id.listaEventi);
             adapter = new CustomAdapter(this, eventi);
-            if (jsonData == null)
+            if (jsonData == null || !thisDay.Equals(lastDownload))
             {
                 httpClient.DownloadStringAsync(new System.Uri("http://dati.umbria.it/dataset/410faa97-546b-4362-a6d7-f8794d18ed19/resource/8afe729a-0f59-4647-95ee-481577e83bea/download/eventijsonitit.zipeventiitit.json"));
                 new System.Threading.Thread(new ThreadStart(delegate
@@ -128,6 +129,7 @@ namespace PerugiaEventi1
     // an exception, display the resource.
            if (!e.Cancelled && e.Error == null)
            {
+               lastDownload = thisDay;
                jsonData = e.Result;
                InizializzaVista(jsonData);
               
