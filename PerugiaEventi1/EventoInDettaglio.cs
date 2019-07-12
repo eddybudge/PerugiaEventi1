@@ -18,12 +18,14 @@ namespace PerugiaEventi1
     public class EventoInDettaglio : Activity
     {
         public TextView titoloEvento, urlView, inizioView, fineView, descrizioneView;
+        public ScrollView scrollView;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
 
             // Create your application here
             SetContentView(Resource.Layout.dettagliEvento);
+            scrollView = FindViewById<ScrollView>(Resource.Id.scrollView1);
             titoloEvento = FindViewById<TextView>(Resource.Id.dettagliTitolo);
             urlView = FindViewById<TextView>(Resource.Id.dettagliUrl);
             inizioView = FindViewById<TextView>(Resource.Id.dettagliInizio);
