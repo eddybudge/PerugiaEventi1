@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-	android:id="@+id/dettagliLista">
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:id="@+id/dettagliLista"
+	android:scrollbars="vertical"
+	android:scrollbarAlwaysDrawVerticalTrack="true">
 	<TextView
 		android:id="@+id/dettagliTitolo"
 		android:text="Text"
@@ -33,24 +36,33 @@
 		android:gravity="center_horizontal" />
 	<TextView
 		android:id="@+id/dettagliInizio"
+		android:textSize="30sp"
 		android:text="Text"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:minWidth="25px"
-		android:minHeight="25px"/>
+		android:minHeight="25px"
+		android:gravity="center_horizontal"
+	/>
 	<TextView
 		android:id="@+id/dettagliFine"
 		android:text="Text"
+		android:textSize="40sp"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:minWidth="25px"
-		android:minHeight="25px"/>
+		android:minHeight="25px"
+		android:gravity="center_horizontal"
+	/>
 	<TextView
 		android:id="@+id/dettagliDescrizione"
 		android:text="Text"
+		android:textSize="50sp"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:minWidth="25px"
-		android:minHeight="25px"/>
+		android:minHeight="25px"
+		android:gravity="center_horizontal"
+	/>
 
 </LinearLayout>

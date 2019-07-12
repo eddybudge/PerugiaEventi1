@@ -31,8 +31,8 @@ namespace PerugiaEventi1
             descrizioneView = FindViewById<TextView>(Resource.Id.dettagliDescrizione);
             titoloEvento.Text = Intent.GetStringExtra("titolo");
             urlView.Text = Intent.GetStringExtra("url");
-            inizioView.Text = Intent.GetStringExtra("inizia");
-            fineView.Text = Intent.GetStringExtra("finisce");
+            inizioView.Text = "Dal: "+ Intent.GetStringExtra("inizia");
+            fineView.Text = "Al: " + Intent.GetStringExtra("finisce");
             descrizioneView.Text = Intent.GetStringExtra("descrizione");
             /*titoloEvento.Click += delegate
             {
