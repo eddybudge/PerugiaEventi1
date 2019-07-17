@@ -19,11 +19,12 @@ using System.Threading;
 namespace PerugiaEventi1
 {
     // AlwaysRetainTaskState = true
-    [Activity(Label = "@string/app_name", Theme = "@style/AppTheme", MainLauncher = true, NoHistory =true,ConfigurationChanges = Android.Content.PM.ConfigChanges.Orientation | Android.Content.PM.ConfigChanges.ScreenSize)]
+    [Activity(Label = "PerugiaEventi", Theme = "@style/Theme.Design", MainLauncher = true, NoHistory =true,ConfigurationChanges = Android.Content.PM.ConfigChanges.Orientation | Android.Content.PM.ConfigChanges.ScreenSize)]
     public class MainActivity : AppCompatActivity
     {
         //Button bottoneCaricaEventi;
-        static ListView listaEventi; 
+        static ListView listaEventi;
+        public ScrollView scrollView2;
         static RootObject root;
         static List<Contenuto> listaContenuti;
         static string totaleContenuti;
@@ -34,14 +35,17 @@ namespace PerugiaEventi1
         static CustomAdapter adapter;
         private static ProgressBar circularbar;
         private static int progressStatus1 = 100;
-
+        //static Button bottone;
+        static Android.Support.V7.Widget.Toolbar toolbar;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-            
+          
             // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.activity_main);
+            toolbar = FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar1);
+            toolbar.Visibility = ViewStates.Invisible;
 
             eventi = new List<Evento>();
 
@@ -55,7 +59,13 @@ namespace PerugiaEventi1
 
 
 
+            
+            
             thisDay = DateTime.Now.Date;
+
+            //bottone = FindViewById<Button>(Resource.Id.button1);
+            //bottone.Visibility = ViewStates.Invisible;
+            
             WebClient httpClient = new WebClient();
 
             httpClient.DownloadStringCompleted += new DownloadStringCompletedEventHandler(DownloadStringCallback2);
@@ -84,6 +94,7 @@ namespace PerugiaEventi1
                 
                 circularbar.Visibility = ViewStates.Invisible;
                 InizializzaVista(jsonData);
+
             }
 
             
@@ -92,13 +103,15 @@ namespace PerugiaEventi1
         }
 
         private static void InizializzaVista(string jsonData)
-        {      
-               root = JsonConvert.DeserializeObject<RootObject>(jsonData);
+        {
+            
+            root = JsonConvert.DeserializeObject<RootObject>(jsonData);
                totaleContenuti = root.Total;
+               //Console.WriteLine("Il numero totale dei bottoni: "+ totaleContenuti);
                listaContenuti = root.Contenuto;
-               //TODO aggiungi il controllo per non aggiornamento se
-               //l'ultimo evento caricato non è cambiato 
-
+            //TODO aggiungi il controllo per non aggiornamento se
+            //l'ultimo evento caricato non è cambiato 
+               //int numeroEventiPerugia = 0;
                int x = int.Parse(totaleContenuti);
 
                for (int i = 0; i < x - 1; i++)
@@ -109,6 +122,7 @@ namespace PerugiaEventi1
                    {
                        if (listaContenuti[i].Comune == "Perugia")
                        {
+                           //numeroEventiPerugia += 1;
                            //TODO crea oggetto eventi
                            Evento nuovoEvento = new Evento(listaContenuti[i].Titolo,
                                listaContenuti[i].Id_contenuto, listaContenuti[i].Url_risorsa,
@@ -119,21 +133,50 @@ namespace PerugiaEventi1
                    }
                }
 
+            
+            listaEventi.Adapter = adapter;
+            //bottone.Visibility = ViewStates.Visible;
+            toolbar.Visibility = ViewStates.Visible;
 
-               listaEventi.Adapter = adapter;
-               
-       }
+            //Toast.MakeText(Application.Context, "Il numero totale dei bottoni: " + numeroEventiPerugia, ToastLength.Long).Show();
 
-       private static void DownloadStringCallback2(Object sender, DownloadStringCompletedEventArgs e)
+        }
+
+
+        public override bool OnCreateOptionsMenu(IMenu menu)
+        {
+            var inflater = MenuInflater;
+            inflater.Inflate(Resource.Menu.menu_main, menu);
+            return true;
+        }
+
+        public override bool OnOptionsItemSelected(IMenuItem item)
+        {
+            int id = item.ItemId;
+            if (id == Resource.Id.action_search)
+            {
+                Toast.MakeText(Application.Context, "Search clicked", ToastLength.Long).Show();
+                return true;
+            }
+            else if (id == Resource.Id.action_unsearch){
+                Toast.MakeText(Application.Context, "Unsearch clicked", ToastLength.Long).Show();
+                return true;
+            }
+            else { }
+            return base.OnOptionsItemSelected(item);
+        }
+        private static void DownloadStringCallback2(Object sender, DownloadStringCompletedEventArgs e)
 {    // If the request was not canceled and did not throw
     // an exception, display the resource.
            if (!e.Cancelled && e.Error == null)
            {
                lastDownload = thisDay;
                jsonData = e.Result;
-               InizializzaVista(jsonData);
-              
-        }
+                //circularbar.Visibility = ViewStates.Invisible;
+                InizializzaVista(jsonData);
+               
+
+            }
             else {
                 Toast.MakeText(Application.Context, "Can't download events! Check your Internet connection", ToastLength.Long).Show();
             }
