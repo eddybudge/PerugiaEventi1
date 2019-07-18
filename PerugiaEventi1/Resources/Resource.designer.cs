@@ -2759,6 +2759,9 @@ namespace PerugiaEventi1
 			// aapt resource value: 0x7f080089
 			public const int search_voice_btn = 2131230857;
 			
+			// aapt resource value: 0x7f0800be
+			public const int searchview = 2131230910;
+			
 			// aapt resource value: 0x7f08008a
 			public const int select_dialog_listview = 2131230858;
 			

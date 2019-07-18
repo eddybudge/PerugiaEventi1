@@ -13,23 +13,28 @@ using Java.Lang;
 
 namespace PerugiaEventi1.Model
 {
-    public class ViewHolder : Java.Lang.Object {
+    public class ViewHolder : Java.Lang.Object
+    {
 
         public Button bottoneEvento { get; set; }
 
     }
 
-    public class CustomAdapter : BaseAdapter
+    public class CustomAdapter : BaseAdapter<Evento>
     {
         private Activity activity;
         private List<Evento> eventi;
+        
         public CustomAdapter(Activity activity, List<Evento> eventi)
         {
             this.activity = activity;
             this.eventi = eventi;
         }
 
-
+        public override Evento this[int position]
+        {
+            get { return eventi[position]; }
+        }
         public override int Count => eventi.Count;
 
         public override Java.Lang.Object GetItem(int position)
@@ -49,7 +54,8 @@ namespace PerugiaEventi1.Model
 
             bottoneEvento.Text = eventi[position].Titolo;
             //bottoneEvento.Tag = position;  --forse non serve
-            bottoneEvento.Click += (sender, args) => {
+            bottoneEvento.Click += (sender, args) =>
+            {
                 //bisogna, immagino fare l'update della view con notify - prima creando un observer.
                 Intent dettagli = new Intent(Application.Context, typeof(EventoInDettaglio));
                 dettagli.PutExtra("titolo", bottoneEvento.Text);
@@ -62,5 +68,6 @@ namespace PerugiaEventi1.Model
 
             return view;
         }
+
     }
 }

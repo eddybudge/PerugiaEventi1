@@ -37,6 +37,8 @@ namespace PerugiaEventi1
         private static int progressStatus1 = 100;
         //static Button bottone;
         static Android.Support.V7.Widget.Toolbar toolbar;
+        private static WebClient httpClient;
+        private static Android.Support.V7.Widget.SearchView searchView;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -46,6 +48,9 @@ namespace PerugiaEventi1
             SetContentView(Resource.Layout.activity_main);
             toolbar = FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar1);
             toolbar.Visibility = ViewStates.Invisible;
+           
+            
+                
 
             eventi = new List<Evento>();
 
@@ -59,14 +64,14 @@ namespace PerugiaEventi1
 
 
 
-            
-            
+
+           
             thisDay = DateTime.Now.Date;
 
             //bottone = FindViewById<Button>(Resource.Id.button1);
             //bottone.Visibility = ViewStates.Invisible;
             
-            WebClient httpClient = new WebClient();
+            httpClient = new WebClient();
 
             httpClient.DownloadStringCompleted += new DownloadStringCompletedEventHandler(DownloadStringCallback2);
             //httpClient.DownloadProgressChanged += new DownloadProgressChangedEventHandler(DownloadProgressCallback);
@@ -147,18 +152,24 @@ namespace PerugiaEventi1
         {
             var inflater = MenuInflater;
             inflater.Inflate(Resource.Menu.menu_main, menu);
+            IMenuItem mSearch = menu.FindItem(Resource.Id.searchview);
+            Android.Support.V7.Widget.SearchView mSearchView = (Android.Support.V7.Widget.SearchView)mSearch.ActionView;
             return true;
         }
 
         public override bool OnOptionsItemSelected(IMenuItem item)
         {
             int id = item.ItemId;
+            if (httpClient.IsBusy){
+                return true;
+            }
             if (id == Resource.Id.action_search)
             {
                 Toast.MakeText(Application.Context, "Search clicked", ToastLength.Long).Show();
                 DatePickerFragment frag = DatePickerFragment.NewInstance(delegate (DateTime time)
                 {
                     Toast.MakeText(Application.Context, time.ToLongDateString(), ToastLength.Long).Show();
+                    FilterList(time);
                 });
                 frag.Show(FragmentManager, DatePickerFragment.TAG);
                 return true;
@@ -167,9 +178,15 @@ namespace PerugiaEventi1
                 Toast.MakeText(Application.Context, "Unsearch clicked", ToastLength.Long).Show();
                 return true;
             }
-            else { }
+            else {  }
             return base.OnOptionsItemSelected(item);
         }
+
+        private void FilterList(DateTime time)
+        {
+            
+        }
+
         private static void DownloadStringCallback2(Object sender, DownloadStringCompletedEventArgs e)
 {    // If the request was not canceled and did not throw
     // an exception, display the resource.

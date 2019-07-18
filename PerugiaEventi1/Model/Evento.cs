@@ -23,7 +23,7 @@ namespace PerugiaEventi1.Model
             Fine = fine;
             Descrizione = descrizione;
         }
-
+       
         public string Url { get; set; }
         public string Id { get; set; }
         public string Titolo { get; set; }

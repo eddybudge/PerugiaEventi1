@@ -15,4 +15,10 @@
       android:title="Annulla ricerca"
       android:orderInCategory="101"
       app:showAsAction="always" />
+  <item
+        android:id="@+id/searchview"
+        android:title="Search"
+        app:actionViewClass="android.support.v7.widget.SearchView"
+        app:showAsAction="ifRoom|collapseActionView"
+        android:orderInCategory="102"/>
 </menu>
