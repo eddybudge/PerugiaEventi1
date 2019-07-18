@@ -156,6 +156,11 @@ namespace PerugiaEventi1
             if (id == Resource.Id.action_search)
             {
                 Toast.MakeText(Application.Context, "Search clicked", ToastLength.Long).Show();
+                DatePickerFragment frag = DatePickerFragment.NewInstance(delegate (DateTime time)
+                {
+                    Toast.MakeText(Application.Context, time.ToLongDateString(), ToastLength.Long).Show();
+                });
+                frag.Show(FragmentManager, DatePickerFragment.TAG);
                 return true;
             }
             else if (id == Resource.Id.action_unsearch){
