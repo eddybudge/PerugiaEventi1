@@ -38,7 +38,7 @@ namespace PerugiaEventi1
         //static Button bottone;
         static Android.Support.V7.Widget.Toolbar toolbar;
         private static WebClient httpClient;
-        private static Android.Support.V7.Widget.SearchView searchView;
+        
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -154,6 +154,7 @@ namespace PerugiaEventi1
             inflater.Inflate(Resource.Menu.menu_main, menu);
             IMenuItem mSearch = menu.FindItem(Resource.Id.searchview);
             Android.Support.V7.Widget.SearchView mSearchView = (Android.Support.V7.Widget.SearchView)mSearch.ActionView;
+            mSearchView.Visibility = ViewStates.Gone;
             return true;
         }
 
