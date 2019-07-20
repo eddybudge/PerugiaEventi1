@@ -40,7 +40,7 @@ namespace PerugiaEventi1
         //static Button bottone;
         static Android.Support.V7.Widget.Toolbar toolbar;
         private static WebClient httpClient;
-        static List<Evento> eventiDaRimuovere;
+        static List<Evento> eventiDaAggiungere;
 
 
 
@@ -160,19 +160,34 @@ namespace PerugiaEventi1
 
         private static void CercaEventi(string previousSearch)
         {
-           
+            if (eventiDaAggiungere != null)
+            {
+                eventi.Clear();
+                
+                for (var i = 0; i < eventi_originali.Count; i++)
+                {
+                    eventi.Add(eventi_originali[i]);
+
+                }
+                
+            }
+
+
+            eventiDaAggiungere = new List<Evento>();
             DateTime time = DateTime.ParseExact(previousSearch, "dd/MM/yyyy", CultureInfo.InvariantCulture);
             for (var i = 0; i < eventi.Count; i++)
             {
-                if (!(DateTime.ParseExact(eventi[i].Inizio, "dd/MM/yyyy", CultureInfo.InvariantCulture) <= DateTime.ParseExact(time.ToShortDateString(), "dd/MM/yyyy", CultureInfo.InvariantCulture) &&
-                DateTime.ParseExact(eventi[i].Fine, "dd/MM/yyyy", CultureInfo.InvariantCulture) >= DateTime.ParseExact(time.ToShortDateString(), "dd/MM/yyyy", CultureInfo.InvariantCulture)))
+                if (DateTime.ParseExact(eventi[i].Inizio, "dd/MM/yyyy", CultureInfo.InvariantCulture) <= DateTime.ParseExact(time.ToShortDateString(), "dd/MM/yyyy", CultureInfo.InvariantCulture) &&
+                DateTime.ParseExact(eventi[i].Fine, "dd/MM/yyyy", CultureInfo.InvariantCulture) >= DateTime.ParseExact(time.ToShortDateString(), "dd/MM/yyyy", CultureInfo.InvariantCulture))
                 {
-                    eventiDaRimuovere.Add(eventi[i]);
+                    eventiDaAggiungere.Add(eventi[i]);
                 }
             }
-            for (var i = 0; i < eventiDaRimuovere.Count; i++)
+            eventi.Clear();
+            
+            for (var i = 0; i < eventiDaAggiungere.Count; i++)
             {
-                eventi.Remove(eventiDaRimuovere[i]);
+                eventi.Add(eventiDaAggiungere[i]);
                 //adapter.NotifyDataSetChanged();
             }
             
@@ -205,27 +220,31 @@ namespace PerugiaEventi1
                 Toast.MakeText(Application.Context, "Search clicked", ToastLength.Long).Show();
                 DatePickerFragment frag = DatePickerFragment.NewInstance(delegate (DateTime time)
                 {
-                    if (eventiDaRimuovere != null)
+                    if (eventiDaAggiungere != null)
                     {
-                        for (var i = 0; i < eventiDaRimuovere.Count; i++)
+                        eventi.Clear();
+                        
+                        for (var i = 0; i < eventi_originali.Count; i++)
                         {
-                            eventi.Add(eventiDaRimuovere[i]);
-                            //adapter.NotifyDataSetChanged();
+                            eventi.Add(eventi_originali[i]);
+                            
                         }
+                        
                     }
                     
 
-                    eventiDaRimuovere = new List<Evento>();
+                    eventiDaAggiungere = new List<Evento>();
                     previousSearch = time.ToShortDateString();
                     for (var i = 0; i < eventi.Count; i++) {
-                        if (!(DateTime.ParseExact(eventi[i].Inizio, "dd/MM/yyyy", CultureInfo.InvariantCulture) <= DateTime.ParseExact(time.ToShortDateString(), "dd/MM/yyyy", CultureInfo.InvariantCulture) &&
-                        DateTime.ParseExact(eventi[i].Fine, "dd/MM/yyyy", CultureInfo.InvariantCulture) >= DateTime.ParseExact(time.ToShortDateString(), "dd/MM/yyyy", CultureInfo.InvariantCulture))) {
-                            eventiDaRimuovere.Add(eventi[i]);
+                        if (DateTime.ParseExact(eventi[i].Inizio, "dd/MM/yyyy", CultureInfo.InvariantCulture) <= DateTime.ParseExact(time.ToShortDateString(), "dd/MM/yyyy", CultureInfo.InvariantCulture) &&
+                        DateTime.ParseExact(eventi[i].Fine, "dd/MM/yyyy", CultureInfo.InvariantCulture) >= DateTime.ParseExact(time.ToShortDateString(), "dd/MM/yyyy", CultureInfo.InvariantCulture)) {
+                            eventiDaAggiungere.Add(eventi[i]);
                         }
                     }
+                    eventi.Clear();
                     
-                    for (var i = 0; i < eventiDaRimuovere.Count; i++) {
-                        eventi.Remove(eventiDaRimuovere[i]);
+                    for (var i = 0; i < eventiDaAggiungere.Count; i++) {
+                        eventi.Add(eventiDaAggiungere[i]);
                         //adapter.NotifyDataSetChanged();
                         
                     }
@@ -241,7 +260,7 @@ namespace PerugiaEventi1
             }
             else if (id == Resource.Id.action_unsearch){
                 previousSearch = null;
-                if (eventiDaRimuovere != null)
+                if (eventiDaAggiungere != null)
                 {   eventi.Clear();
                     adapter.NotifyDataSetChanged();
                     for (var i = 0; i < eventi_originali.Count; i++)
@@ -251,7 +270,7 @@ namespace PerugiaEventi1
                     }
                 
                 }
-                eventiDaRimuovere = null;
+                eventiDaAggiungere = null;
 
                 //adapter.NotifyDataSetChanged();
                 
