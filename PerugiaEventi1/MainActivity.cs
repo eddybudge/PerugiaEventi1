@@ -173,9 +173,10 @@ namespace PerugiaEventi1
             for (var i = 0; i < eventiDaRimuovere.Count; i++)
             {
                 eventi.Remove(eventiDaRimuovere[i]);
+                adapter.NotifyDataSetChanged();
             }
 
-           adapter.NotifyDataSetChanged();
+           //adapter.NotifyDataSetChanged();
            System.Threading.Thread.Sleep(1000);
         }
 
@@ -202,6 +203,7 @@ namespace PerugiaEventi1
                     for (var i = 0; i < eventiDaRimuovere.Count; i++)
                     {
                         eventi.Add(eventiDaRimuovere[i]);
+                        adapter.NotifyDataSetChanged();
                     }
                 }
                 Toast.MakeText(Application.Context, "Search clicked", ToastLength.Long).Show();
@@ -218,10 +220,12 @@ namespace PerugiaEventi1
                     }
                     for (var i = 0; i < eventiDaRimuovere.Count; i++) {
                         eventi.Remove(eventiDaRimuovere[i]);
+                        adapter.NotifyDataSetChanged();
                     }
 
-                    RunOnUiThread(() => adapter.NotifyDataSetChanged());
-                    System.Threading.Thread.Sleep(1000);
+                    //adapter.NotifyDataSetChanged();
+                   
+                    
                 });
                 frag.Show(FragmentManager, DatePickerFragment.TAG);
                 return true;
@@ -233,13 +237,14 @@ namespace PerugiaEventi1
                     for (var i = 0; i < eventiDaRimuovere.Count; i++)
                     {   
                         eventi.Add(eventiDaRimuovere[i]);
+                        adapter.NotifyDataSetChanged();
                     }
                 
                 }
                 eventiDaRimuovere = null;
 
-                RunOnUiThread(() => adapter.NotifyDataSetChanged());
-                System.Threading.Thread.Sleep(000);
+                //adapter.NotifyDataSetChanged();
+                
                 Toast.MakeText(Application.Context, "Unsearch clicked", ToastLength.Long).Show();
                 return true;
             }
