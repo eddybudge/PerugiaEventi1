@@ -39,7 +39,9 @@ namespace PerugiaEventi1
         //static Button bottone;
         static Android.Support.V7.Widget.Toolbar toolbar;
         private static WebClient httpClient;
-        
+        List<Evento> eventiDaRimuovere;
+
+
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -98,7 +100,7 @@ namespace PerugiaEventi1
             }
             else {
                 
-                circularbar.Visibility = ViewStates.Invisible;
+                circularbar.Visibility = ViewStates.Gone;
                 InizializzaVista(jsonData);
 
             }
@@ -169,11 +171,17 @@ namespace PerugiaEventi1
             }
             if (id == Resource.Id.action_search)
             {
+                if (eventiDaRimuovere != null) {
+                    for (var i = 0; i < eventiDaRimuovere.Count; i++)
+                    {
+                        eventi.Add(eventiDaRimuovere[i]);
+                    }
+                }
                 Toast.MakeText(Application.Context, "Search clicked", ToastLength.Long).Show();
                 DatePickerFragment frag = DatePickerFragment.NewInstance(delegate (DateTime time)
                 {
                     Toast.MakeText(Application.Context, time.ToShortDateString(), ToastLength.Long).Show();
-                    List<Evento> eventiDaRimuovere = new List<Evento>(); 
+                    eventiDaRimuovere = new List<Evento>(); 
                     for (var i = 0; i < eventi.Count; i++) {
                         if (!(DateTime.ParseExact(eventi[i].Inizio, "dd/MM/yyyy", CultureInfo.InvariantCulture) <= DateTime.ParseExact(time.ToShortDateString(), "dd/MM/yyyy", CultureInfo.InvariantCulture) &&
                         DateTime.ParseExact(eventi[i].Fine, "dd/MM/yyyy", CultureInfo.InvariantCulture) >= DateTime.ParseExact(time.ToShortDateString(), "dd/MM/yyyy", CultureInfo.InvariantCulture))) {
@@ -184,13 +192,24 @@ namespace PerugiaEventi1
                         eventi.Remove(eventiDaRimuovere[i]);
                     }
 
-                    adapter = new CustomAdapter(this, eventi);
-                    listaEventi.Adapter = adapter;
+                    adapter.NotifyDataSetChanged();
+                    
                 });
                 frag.Show(FragmentManager, DatePickerFragment.TAG);
                 return true;
             }
             else if (id == Resource.Id.action_unsearch){
+                if (eventiDaRimuovere != null)
+                {   
+                    for (var i = 0; i < eventiDaRimuovere.Count; i++)
+                    {   
+                        eventi.Add(eventiDaRimuovere[i]);
+                    }
+                
+                }
+                eventiDaRimuovere = null;
+               
+                adapter.NotifyDataSetChanged();
                 Toast.MakeText(Application.Context, "Unsearch clicked", ToastLength.Long).Show();
                 return true;
             }
@@ -209,7 +228,9 @@ namespace PerugiaEventi1
                jsonData = e.Result;
                 //circularbar.Visibility = ViewStates.Invisible;
                 InizializzaVista(jsonData);
-               
+                circularbar.Visibility = ViewStates.Gone;
+
+
 
             }
             else {
