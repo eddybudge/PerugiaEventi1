@@ -160,7 +160,7 @@ namespace PerugiaEventi1
 
         private static void CercaEventi(string previousSearch)
         {
-            eventiDaRimuovere = new List<Evento>();
+           
             DateTime time = DateTime.ParseExact(previousSearch, "dd/MM/yyyy", CultureInfo.InvariantCulture);
             for (var i = 0; i < eventi.Count; i++)
             {
@@ -173,11 +173,13 @@ namespace PerugiaEventi1
             for (var i = 0; i < eventiDaRimuovere.Count; i++)
             {
                 eventi.Remove(eventiDaRimuovere[i]);
-                adapter.NotifyDataSetChanged();
+                //adapter.NotifyDataSetChanged();
             }
+            
+            adapter.NotifyDataSetChanged();
 
-           //adapter.NotifyDataSetChanged();
-           System.Threading.Thread.Sleep(1000);
+            //adapter.NotifyDataSetChanged();
+            System.Threading.Thread.Sleep(1000);
         }
 
         public override bool OnCreateOptionsMenu(IMenu menu)
@@ -199,17 +201,20 @@ namespace PerugiaEventi1
             }
             if (id == Resource.Id.action_search)
             {
-                if (eventiDaRimuovere != null) {
-                    for (var i = 0; i < eventiDaRimuovere.Count; i++)
-                    {
-                        eventi.Add(eventiDaRimuovere[i]);
-                        adapter.NotifyDataSetChanged();
-                    }
-                }
+                
                 Toast.MakeText(Application.Context, "Search clicked", ToastLength.Long).Show();
                 DatePickerFragment frag = DatePickerFragment.NewInstance(delegate (DateTime time)
                 {
-                    Toast.MakeText(Application.Context, time.ToShortDateString(), ToastLength.Long).Show();
+                    if (eventiDaRimuovere != null)
+                    {
+                        for (var i = 0; i < eventiDaRimuovere.Count; i++)
+                        {
+                            eventi.Add(eventiDaRimuovere[i]);
+                            //adapter.NotifyDataSetChanged();
+                        }
+                    }
+                    
+
                     eventiDaRimuovere = new List<Evento>();
                     previousSearch = time.ToShortDateString();
                     for (var i = 0; i < eventi.Count; i++) {
@@ -218,14 +223,18 @@ namespace PerugiaEventi1
                             eventiDaRimuovere.Add(eventi[i]);
                         }
                     }
+                    
                     for (var i = 0; i < eventiDaRimuovere.Count; i++) {
                         eventi.Remove(eventiDaRimuovere[i]);
-                        adapter.NotifyDataSetChanged();
+                        //adapter.NotifyDataSetChanged();
+                        
                     }
-
-                    //adapter.NotifyDataSetChanged();
-                   
                     
+                    adapter.NotifyDataSetChanged();
+                    Toast.MakeText(Application.Context, time.ToShortDateString(), ToastLength.Long).Show();
+                    //adapter.NotifyDataSetChanged();
+
+
                 });
                 frag.Show(FragmentManager, DatePickerFragment.TAG);
                 return true;
@@ -233,11 +242,12 @@ namespace PerugiaEventi1
             else if (id == Resource.Id.action_unsearch){
                 previousSearch = null;
                 if (eventiDaRimuovere != null)
-                {   
-                    for (var i = 0; i < eventiDaRimuovere.Count; i++)
+                {   eventi.Clear();
+                    adapter.NotifyDataSetChanged();
+                    for (var i = 0; i < eventi_originali.Count; i++)
                     {   
-                        eventi.Add(eventiDaRimuovere[i]);
-                        adapter.NotifyDataSetChanged();
+                        eventi.Add(eventi_originali[i]);
+                        
                     }
                 
                 }
