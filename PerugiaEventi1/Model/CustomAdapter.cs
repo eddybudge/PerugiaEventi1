@@ -55,7 +55,8 @@ namespace PerugiaEventi1.Model
             bottoneEvento.Text = eventi[position].Titolo;
             //bottoneEvento.Tag = position;  --forse non serve
             bottoneEvento.Click += (sender, args) =>
-            {   
+            {
+                System.Diagnostics.Debug.WriteLine("Position: "+position+" Number of elements inside the list: "+eventi.Count());
                 //bisogna, immagino fare l'update della view con notify - prima creando un observer.
                 Intent dettagli = new Intent(Application.Context, typeof(EventoInDettaglio));
                 dettagli.PutExtra("titolo", bottoneEvento.Text);
