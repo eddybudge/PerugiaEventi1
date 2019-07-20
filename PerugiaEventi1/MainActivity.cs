@@ -32,6 +32,7 @@ namespace PerugiaEventi1
         static List<Evento> eventi_originali= new List<Evento>();
         public static string jsonData;
         static DateTime thisDay;
+        static string previousSearch;
         static DateTime lastDownload; 
         static CustomAdapter adapter;
         private static ProgressBar circularbar;
@@ -39,14 +40,18 @@ namespace PerugiaEventi1
         //static Button bottone;
         static Android.Support.V7.Widget.Toolbar toolbar;
         private static WebClient httpClient;
-        List<Evento> eventiDaRimuovere;
+        static List<Evento> eventiDaRimuovere;
 
 
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-          
+            if (savedInstanceState != null) {
+                if (savedInstanceState.GetString("lastSearch")!=null) {
+                    previousSearch = savedInstanceState.GetString("lastSearch");
+                }
+            }
             // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.activity_main);
             toolbar = FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar1);
@@ -146,11 +151,33 @@ namespace PerugiaEventi1
             listaEventi.Adapter = adapter;
             //bottone.Visibility = ViewStates.Visible;
             toolbar.Visibility = ViewStates.Visible;
-
+            if (previousSearch != null) {
+                CercaEventi(previousSearch);
+            }
             //Toast.MakeText(Application.Context, "Il numero totale dei bottoni: " + numeroEventiPerugia, ToastLength.Long).Show();
 
         }
 
+        private static void CercaEventi(string previousSearch)
+        {
+            eventiDaRimuovere = new List<Evento>();
+            DateTime time = DateTime.ParseExact(previousSearch, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+            for (var i = 0; i < eventi.Count; i++)
+            {
+                if (!(DateTime.ParseExact(eventi[i].Inizio, "dd/MM/yyyy", CultureInfo.InvariantCulture) <= DateTime.ParseExact(time.ToShortDateString(), "dd/MM/yyyy", CultureInfo.InvariantCulture) &&
+                DateTime.ParseExact(eventi[i].Fine, "dd/MM/yyyy", CultureInfo.InvariantCulture) >= DateTime.ParseExact(time.ToShortDateString(), "dd/MM/yyyy", CultureInfo.InvariantCulture)))
+                {
+                    eventiDaRimuovere.Add(eventi[i]);
+                }
+            }
+            for (var i = 0; i < eventiDaRimuovere.Count; i++)
+            {
+                eventi.Remove(eventiDaRimuovere[i]);
+            }
+
+           adapter.NotifyDataSetChanged();
+           System.Threading.Thread.Sleep(1000);
+        }
 
         public override bool OnCreateOptionsMenu(IMenu menu)
         {
@@ -181,7 +208,8 @@ namespace PerugiaEventi1
                 DatePickerFragment frag = DatePickerFragment.NewInstance(delegate (DateTime time)
                 {
                     Toast.MakeText(Application.Context, time.ToShortDateString(), ToastLength.Long).Show();
-                    eventiDaRimuovere = new List<Evento>(); 
+                    eventiDaRimuovere = new List<Evento>();
+                    previousSearch = time.ToShortDateString();
                     for (var i = 0; i < eventi.Count; i++) {
                         if (!(DateTime.ParseExact(eventi[i].Inizio, "dd/MM/yyyy", CultureInfo.InvariantCulture) <= DateTime.ParseExact(time.ToShortDateString(), "dd/MM/yyyy", CultureInfo.InvariantCulture) &&
                         DateTime.ParseExact(eventi[i].Fine, "dd/MM/yyyy", CultureInfo.InvariantCulture) >= DateTime.ParseExact(time.ToShortDateString(), "dd/MM/yyyy", CultureInfo.InvariantCulture))) {
@@ -192,13 +220,14 @@ namespace PerugiaEventi1
                         eventi.Remove(eventiDaRimuovere[i]);
                     }
 
-                    adapter.NotifyDataSetChanged();
-                    
+                    RunOnUiThread(() => adapter.NotifyDataSetChanged());
+                    System.Threading.Thread.Sleep(1000);
                 });
                 frag.Show(FragmentManager, DatePickerFragment.TAG);
                 return true;
             }
             else if (id == Resource.Id.action_unsearch){
+                previousSearch = null;
                 if (eventiDaRimuovere != null)
                 {   
                     for (var i = 0; i < eventiDaRimuovere.Count; i++)
@@ -208,8 +237,9 @@ namespace PerugiaEventi1
                 
                 }
                 eventiDaRimuovere = null;
-               
-                adapter.NotifyDataSetChanged();
+
+                RunOnUiThread(() => adapter.NotifyDataSetChanged());
+                System.Threading.Thread.Sleep(000);
                 Toast.MakeText(Application.Context, "Unsearch clicked", ToastLength.Long).Show();
                 return true;
             }
@@ -237,8 +267,17 @@ namespace PerugiaEventi1
                 Toast.MakeText(Application.Context, "Can't download events! Check your Internet connection", ToastLength.Long).Show();
             }
 }
+        protected override void OnSaveInstanceState(Bundle outState)
+        {
+            if (previousSearch != null)
+            {
+                outState.PutString("lastSearch", previousSearch);
+            }
+            base.OnSaveInstanceState(outState);
+        }
         public override void OnBackPressed()
         {
+            previousSearch = null;
             Activity activity = (Activity)this;
             activity.FinishAffinity();
             base.OnBackPressed();
