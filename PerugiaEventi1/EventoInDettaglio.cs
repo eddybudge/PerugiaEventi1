@@ -13,7 +13,7 @@ using Android.Widget;
 
 namespace PerugiaEventi1
 {
-    [Activity(Label = "EventoInDettaglio", NoHistory = false, ConfigurationChanges = Android.Content.PM.ConfigChanges.Orientation | Android.Content.PM.ConfigChanges.ScreenSize)]
+    [Activity(Label = "EventoInDettaglio", Theme = "@style/Theme.Design", NoHistory = false, ConfigurationChanges = Android.Content.PM.ConfigChanges.Orientation | Android.Content.PM.ConfigChanges.ScreenSize)]
    
     public class EventoInDettaglio : Activity
     {
