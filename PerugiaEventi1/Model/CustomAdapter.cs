@@ -54,21 +54,29 @@ namespace PerugiaEventi1.Model
             
             bottoneEvento.Text = eventi[position].Titolo;
             //bottoneEvento.Tag = position;  --forse non serve
-            if (!bottoneEvento.HasOnClickListeners)
-            {
+            //if (!bottoneEvento.HasOnClickListeners)
+            //{
                 bottoneEvento.Click += (sender, args) =>
                 {
                     System.Diagnostics.Debug.WriteLine("Position: " + position + " Number of elements inside the list: " + eventi.Count());
                     //bisogna, immagino fare l'update della view con notify - prima creando un observer.
                     Intent dettagli = new Intent(Application.Context, typeof(EventoInDettaglio));
                     dettagli.PutExtra("titolo", bottoneEvento.Text);
-                    dettagli.PutExtra("url", eventi[position].Url);
-                    dettagli.PutExtra("inizia", eventi[position].Inizio);
-                    dettagli.PutExtra("finisce", eventi[position].Fine);
-                    dettagli.PutExtra("descrizione", eventi[position].Descrizione);
+                    try { dettagli.PutExtra("url", eventi[position].Url); }
+                    catch (System.ArgumentOutOfRangeException ex) { dettagli.PutExtra("url", eventi[0].Url); }
+
+                    try { dettagli.PutExtra("inizia", eventi[position].Inizio); }
+                    catch (System.ArgumentOutOfRangeException ex) { dettagli.PutExtra("inizia", eventi[0].Inizio); }
+
+                    try { dettagli.PutExtra("finisce", eventi[position].Fine); }
+                    catch (System.ArgumentOutOfRangeException ex) { dettagli.PutExtra("finisce", eventi[0].Fine); }
+
+                    try { dettagli.PutExtra("descrizione", eventi[position].Descrizione); }
+                    catch { dettagli.PutExtra("descrizione", eventi[0].Descrizione); }
+
                     Application.Context.StartActivity(dettagli);
                 };
-            }
+            //}
 
             return view;
         }

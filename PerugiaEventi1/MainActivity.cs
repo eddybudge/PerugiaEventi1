@@ -127,8 +127,8 @@ namespace PerugiaEventi1
             //l'ultimo evento caricato non è cambiato 
                //int numeroEventiPerugia = 0;
                int x = int.Parse(totaleContenuti);
-
-               for (int i = 0; i < x - 1; i++)
+               System.Text.RegularExpressions.Regex rx = new System.Text.RegularExpressions.Regex("(<[^>]*>|&nbsp)");
+            for (int i = 0; i < x - 1; i++)
                {
                    //vediamo di non caricare gli eventi che sono terminati 
                    //- a quanto pare sono ordinati cronologicamente questi eventi
@@ -136,12 +136,14 @@ namespace PerugiaEventi1
                    {
                        if (listaContenuti[i].Comune == "Perugia")
                        {
-                           //numeroEventiPerugia += 1;
-                           //TODO crea oggetto eventi
-                           Evento nuovoEvento = new Evento(listaContenuti[i].Titolo,
+                       
+
+                        //numeroEventiPerugia += 1;
+                        //TODO crea oggetto eventi
+                        Evento nuovoEvento = new Evento(listaContenuti[i].Titolo,
                                listaContenuti[i].Id_contenuto, listaContenuti[i].Url_risorsa,
                                listaContenuti[i].Data_inizio, listaContenuti[i].Data_fine,
-                               listaContenuti[i].Descrizione);
+                               rx.Replace(listaContenuti[i].Descrizione, ""));
                            eventi.Add(nuovoEvento);
                            eventi_originali.Add(nuovoEvento);
                     }
