@@ -179,7 +179,7 @@ namespace PerugiaEventi1
             adapter.NotifyDataSetChanged();
 
             //adapter.NotifyDataSetChanged();
-            System.Threading.Thread.Sleep(1000);
+            //System.Threading.Thread.Sleep(1000);
         }
 
         public override bool OnCreateOptionsMenu(IMenu menu)
@@ -242,18 +242,18 @@ namespace PerugiaEventi1
             else if (id == Resource.Id.action_unsearch){
                 previousSearch = null;
                 if (eventiDaRimuovere != null)
-                {   eventi.Clear();
-                    adapter.NotifyDataSetChanged();
-                    for (var i = 0; i < eventi_originali.Count; i++)
+                {   //eventi.Clear();
+                    //adapter.NotifyDataSetChanged();
+                    for (var i = 0; i < eventiDaRimuovere.Count; i++)
                     {   
-                        eventi.Add(eventi_originali[i]);
+                        eventi.Add(eventiDaRimuovere[i]);
                         
                     }
                 
                 }
                 eventiDaRimuovere = null;
 
-                //adapter.NotifyDataSetChanged();
+                adapter.NotifyDataSetChanged();
                 
                 Toast.MakeText(Application.Context, "Unsearch clicked", ToastLength.Long).Show();
                 return true;
